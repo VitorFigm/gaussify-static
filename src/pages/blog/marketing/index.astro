@@ -1,0 +1,271 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '@/layouts/Base.astro';
+import { Card, CardContent } from '@/components/ui/card';
+
+// Get all blog posts and filter for marketing-related ones
+const allPosts = await getCollection('blog');
+
+// Filter for marketing posts
+const marketingPosts = allPosts.filter(post => 
+  post.data.category === 'marketing' || 
+  post.data.title.toLowerCase().includes('marketing') ||
+  post.data.tags?.some(tag => tag.toLowerCase().includes('marketing'))
+).sort((a, b) => new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime());
+
+// Pagination setup
+const POSTS_PER_PAGE = 6;
+const currentPage = 1;
+const totalPosts = marketingPosts.length;
+const totalPages = Math.ceil(totalPosts / POSTS_PER_PAGE);
+const startIndex = (currentPage - 1) * POSTS_PER_PAGE;
+const endIndex = startIndex + POSTS_PER_PAGE;
+const currentPosts = marketingPosts.slice(startIndex, endIndex);
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }).format(date);
+}
+
+function getReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.split(' ').length;
+  return Math.ceil(words / wordsPerMinute);
+}
+---
+
+<Base title="Marketing Blog - Strategic Insights & Growth Tactics" description="Discover proven marketing strategies, growth tactics, and data-driven approaches to scale your business">
+  <main class="min-h-screen bg-background">
+    <!-- Header Section -->
+    <section class="relative py-20 px-4 bg-gradient-to-br from-secondary/5 to-accent/10">
+      <div class="absolute inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-secondary/10 to-transparent">
+          <svg class="absolute bottom-0 w-full h-32" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path
+              d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+              opacity=".1"
+              fill="currentColor"
+              class="text-secondary"
+            />
+          </svg>
+        </div>
+      </div>
+      
+      <div class="container mx-auto max-w-6xl relative z-10">
+        <div class="text-center">
+          <!-- Breadcrumb -->
+          <nav class="flex justify-center mb-8">
+            <div class="flex items-center space-x-2 text-sm text-muted-foreground">
+              <a href="/" class="hover:text-secondary transition-colors">Home</a>
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span class="text-foreground font-medium">Marketing Blog</span>
+            </div>
+          </nav>
+
+          <div class="inline-flex items-center gap-2 bg-secondary/10 text-secondary border border-secondary/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z" />
+            </svg>
+            Marketing Strategies
+          </div>
+          
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-secondary via-secondary to-accent-foreground bg-clip-text text-transparent">
+            Marketing Blog
+          </h1>
+          
+          <p class="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            Master proven marketing strategies, growth tactics, and data-driven approaches to scale your business and engage your audience effectively.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posts Grid -->
+    <section class="py-16 px-4">
+      <div class="container mx-auto max-w-6xl">
+        <!-- Posts Stats -->
+        <div class="flex items-center justify-between mb-12">
+          <div class="flex items-center gap-6">
+            <div class="text-sm text-muted-foreground">
+              <span class="font-semibold text-foreground">{totalPosts}</span> marketing guides published
+            </div>
+            <div class="text-sm text-muted-foreground">
+              <span class="font-semibold text-foreground">Page {currentPage}</span> of {totalPages}
+            </div>
+          </div>
+          
+          <!-- Filter Tags -->
+          <div class="hidden md:flex items-center gap-2">
+            <span class="text-sm text-muted-foreground">Popular topics:</span>
+            <div class="flex gap-2">
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary">Strategy</span>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-accent/40 text-accent-foreground">Growth</span>
+              <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-primary/10 text-primary">Analytics</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {currentPosts.map((post, index) => (
+            <article class="group cursor-pointer">
+              <a href={`/blog/${post.id}`} class="block">
+                <Card className="h-full hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02] border-border/50 hover:border-secondary/20">
+                  {post.data.heroImage && (
+                    <div class="relative overflow-hidden rounded-t-xl">
+                      <img 
+                        src={post.data.heroImage.src} 
+                        alt={post.data.title}
+                        class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                        loading={index < 3 ? "eager" : "lazy"}
+                      />
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                    </div>
+                  )}
+                  
+                  <CardContent className="p-6">
+                    <div class="flex items-center gap-3 mb-3">
+                      <div class="flex items-center gap-2 text-xs text-muted-foreground">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                        </svg>
+                        {formatDate(post.data.pubDate)}
+                      </div>
+                      <div class="flex items-center gap-2 text-xs text-muted-foreground">
+                        <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd" />
+                        </svg>
+                        {getReadingTime(post.body || '')} min read
+                      </div>
+                    </div>
+                    
+                    <h3 class="text-xl font-bold mb-3 text-foreground group-hover:text-secondary transition-colors line-clamp-2">
+                      {post.data.title}
+                    </h3>
+                    
+                    <p class="text-muted-foreground text-sm line-clamp-3 mb-4">
+                      {post.data.description}
+                    </p>
+                    
+                    <div class="flex items-center justify-between">
+                      <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary">
+                        Marketing
+                      </span>
+                      
+                      <div class="flex items-center text-secondary font-medium text-sm group-hover:gap-2 transition-all">
+                        Read more
+                        <svg class="w-4 h-4 ml-1 transition-transform group-hover:translate-x-1" fill="currentColor" viewBox="0 0 20 20">
+                          <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </a>
+            </article>
+          ))}
+        </div>
+
+        <!-- Pagination -->
+        {totalPages > 1 && (
+          <div class="flex items-center justify-center gap-2">
+            <nav class="flex items-center gap-1" aria-label="Pagination">
+              <!-- Previous Page - disabled on page 1 -->
+              <div class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-muted/50 border border-border opacity-50 cursor-not-allowed">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                </svg>
+              </div>
+
+              <!-- Page Numbers -->
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+                <a
+                  href={page === 1 ? '/blog/marketing' : `/blog/marketing/page/${page}`}
+                  class={`inline-flex items-center justify-center w-10 h-10 rounded-lg font-medium transition-all ${
+                    page === currentPage
+                      ? 'bg-secondary text-secondary-foreground shadow-sm'
+                      : 'bg-card border border-border hover:bg-accent hover:border-secondary/20'
+                  }`}
+                  aria-label={`Page ${page}`}
+                  aria-current={page === currentPage ? 'page' : undefined}
+                >
+                  {page}
+                </a>
+              ))}
+
+              <!-- Next Page -->
+              {currentPage < totalPages && (
+                <a 
+                  href={`/blog/marketing/page/${currentPage + 1}`}
+                  class="inline-flex items-center justify-center w-10 h-10 rounded-lg bg-card border border-border hover:bg-accent hover:border-secondary/20 transition-all"
+                  aria-label="Next page"
+                >
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                  </svg>
+                </a>
+              )}
+            </nav>
+          </div>
+        )}
+      </div>
+    </section>
+
+    <!-- Resources CTA -->
+    <section class="py-16 px-4 bg-gradient-to-br from-muted/30 to-muted/10">
+      <div class="container mx-auto max-w-4xl text-center">
+        <div class="bg-card rounded-2xl p-8 md:p-12 shadow-sm border border-border">
+          <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+            <svg class="w-8 h-8 text-secondary" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          
+          <h3 class="text-2xl md:text-3xl font-bold mb-4 text-foreground">
+            Marketing Resources & Templates
+          </h3>
+          
+          <p class="text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Get access to our exclusive collection of marketing templates, checklists, and tools to accelerate your growth.
+          </p>
+          
+          <div class="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <input 
+              type="email" 
+              placeholder="Enter your email" 
+              class="flex-1 px-4 py-3 rounded-lg border border-border bg-background focus:outline-none focus:ring-2 focus:ring-secondary/20 focus:border-secondary"
+            />
+            <button class="px-6 py-3 bg-secondary text-secondary-foreground rounded-lg font-medium hover:bg-secondary/90 transition-colors whitespace-nowrap">
+              Get Resources
+            </button>
+          </div>
+          
+          <p class="text-xs text-muted-foreground mt-4">
+            Free resources, no spam. Unsubscribe at any time.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <style>
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</Base>

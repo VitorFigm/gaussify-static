@@ -1,0 +1,44 @@
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scale-up {
+  from {
+    transform: scale(0.75);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+@keyframes scale-down-weak {
+  from {
+    transform: scale(1.05);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+::view-transition-new(menu) {
+  overflow: hidden;
+  animation: scale-down-weak 0.7s var(--ease-elastic), fade-in 0.2s linear;
+}
+
+::view-transition-new(module) {
+  overflow: hidden;
+  animation: scale-up 0.3s ease-in-out, fade-in 0.2s linear;
+}
+
+body {
+  view-transition-name: module;
+}
+
+body.exited {
+  view-transition-name: menu;
+}

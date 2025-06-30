@@ -1,49 +1,391 @@
 ---
-import BaseHead from '../components/BaseHead.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import Base from "@/layouts/Base.astro";
 ---
 
-<!doctype html>
-<html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
-</html>
+<Base>
+  <!-- Hero Section -->
+  <section
+    class="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden"
+  >
+    <!-- Subtle background pattern -->
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <!-- Top subtle wave pattern -->
+      <div
+        class="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-gray-50/40 to-transparent dark:from-gray-900/40"
+      >
+        <svg
+          class="absolute bottom-0 w-full h-32"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z"
+            opacity=".15"
+            fill="currentColor"
+            class="text-primary/20"></path>
+          <path
+            d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z"
+            opacity=".25"
+            fill="currentColor"
+            class="text-primary/15"></path>
+        </svg>
+      </div>
+
+      <!-- Bottom subtle decoration -->
+      <div
+        class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-gray-50/20 to-transparent dark:from-gray-900/20"
+      >
+        <svg
+          class="absolute top-0 w-full h-24 rotate-180"
+          viewBox="0 0 1200 120"
+          preserveAspectRatio="none"
+        >
+          <path
+            d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
+            fill="currentColor"
+            class="text-muted/30"></path>
+        </svg>
+      </div>
+    </div>
+
+    <div
+      class="container mx-auto grid lg:grid-cols-2 gap-12 items-center relative z-10"
+    >
+      <!-- Hero Content -->
+      <div class="space-y-8 animate-fade-in-up">
+        <!-- Badge -->
+        <div
+          class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium"
+        >
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"
+            ></path>
+          </svg>
+          Insights & Inovação
+        </div>
+
+        <!-- Main Heading -->
+        <h1 class="text-5xl lg:text-7xl font-bold leading-tight">
+          <span
+            class="bg-gradient-to-r from-gray-900 via-primary to-secondary bg-clip-text text-transparent"
+          >
+            Explore Ideas
+          </span>
+          <br />
+          <span class="text-gray-900">Que moldam o amanhã </span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-xl lg:text-2xl text-gray-600 leading-relaxed">
+          Mergulhe nas últimas tendências em tecnologia e marketing. Descubra
+          insights, estratégias e inovações que impulsionam o sucesso.
+        </p>
+
+        <!-- CTA Buttons -->
+		<div class="flex flex-col sm:flex-row gap-4 pt-4">
+		  <a
+			href="/blog/tech"
+			class="group inline-flex items-center justify-center gap-2 h-14 px-8 bg-primary text-primary-foreground rounded-full text-lg font-semibold transition-all hover:bg-primary/90 hover:scale-105 shadow-lg hover:shadow-xl whitespace-nowrap"
+		  >
+			<svg
+			  class="w-5 h-5 transition-transform group-hover:rotate-12"
+			  fill="currentColor"
+			  viewBox="0 0 20 20"
+			>
+			  <path
+			fill-rule="evenodd"
+			d="M6.672 1.911a1 1 0 10-1.932.518l.259.966a1 1 0 001.932-.518l-.26-.966zM2.429 4.74a1 1 0 10-.517 1.932l.966.259a1 1 0 00.517-1.932l-.966-.26zm8.814-.569a1 1 0 00-1.415-1.414l-.707.707a1 1 0 101.415 1.415l.707-.708zm-7.071 7.072l.707-.707A1 1 0 003.465 9.12l-.708.707a1 1 0 001.415 1.415zm3.2-5.171a1 1 0 00-1.3 1.3l4 10a1 1 0 001.823.075l1.38-2.759 3.018 3.02a1 1 0 001.414-1.415l-3.019-3.02 2.76-1.379a1 1 0 00-.076-1.822l-10-4z"
+			clip-rule="evenodd"></path>
+			</svg>
+			Tech Insights
+		  </a>
+
+		  <a
+			href="#"
+			class="group inline-flex items-center justify-center gap-2 h-14 px-8 bg-secondary text-secondary-foreground rounded-full text-lg font-semibold transition-all hover:bg-secondary/90 hover:scale-105 shadow-lg hover:shadow-xl pointer-events-none opacity-50 whitespace-nowrap"
+		  >
+			<svg
+			  class="w-5 h-5 transition-transform group-hover:scale-110"
+			  fill="currentColor"
+			  viewBox="0 0 20 20"
+			>
+			  <path
+			d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"
+			  ></path>
+			</svg>
+			Estratégias de Marketing
+		  </a>
+		</div>
+
+     
+      </div>
+
+      <!-- Hero Visual -->
+      <div class="relative animate-fade-in-up" style="animation-delay: 0.3s">
+        <!-- Main device mockup -->
+        <div
+          class="relative bg-gray-800 dark:bg-gray-900 rounded-[2.5rem] p-3 shadow-2xl mx-auto max-w-sm transform hover:scale-105 transition-transform duration-500"
+        >
+          <div class="bg-card rounded-[2rem] overflow-hidden">
+            <!-- Device notch -->
+            <div
+              class="h-6 bg-gray-900 dark:bg-black flex items-center justify-center"
+            >
+              <div class="w-16 h-1 bg-gray-600 dark:bg-gray-500 rounded-full">
+              </div>
+            </div>
+
+            <!-- Content area -->
+            <div class="bg-card p-6 space-y-4">
+              <div class="flex items-center gap-3 mb-4">
+                <div
+                  class="w-8 h-8 bg-primary/20 rounded-lg flex items-center justify-center"
+                >
+                  <svg
+                    class="w-4 h-4 text-primary"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                  >
+                    <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <div>
+                  <div class="font-semibold text-sm">Blog Tech</div>
+                  <div class="text-xs text-muted-foreground">
+                    Últimas Inovações
+                  </div>
+                </div>
+              </div>
+
+              <div class="space-y-3">
+                <div
+                  class="h-24 bg-gradient-to-r from-primary/10 to-primary/5 rounded-lg p-3"
+                >
+                  <div class="h-2 bg-primary/20 rounded w-3/4 mb-2"></div>
+                  <div class="h-2 bg-gray-200 rounded w-1/2 mb-1"></div>
+                  <div class="h-2 bg-gray-200 rounded w-2/3"></div>
+                </div>
+
+                <div
+                  class="h-24 bg-gradient-to-r from-secondary/10 to-secondary/5 rounded-lg p-3"
+                >
+                  <div class="h-2 bg-secondary/20 rounded w-2/3 mb-2"></div>
+                  <div class="h-2 bg-gray-200 rounded w-3/4 mb-1"></div>
+                  <div class="h-2 bg-gray-200 rounded w-1/2"></div>
+                </div>
+              </div>
+
+              <div class="flex gap-2 pt-2">
+                <div
+                  class="flex-1 h-8 bg-primary rounded-lg flex items-center justify-center"
+                >
+                  <div class="w-4 h-1 bg-white/80 rounded"></div>
+                </div>
+                <div
+                  class="flex-1 h-8 bg-secondary rounded-lg flex items-center justify-center"
+                >
+                  <div class="w-4 h-1 bg-white/80 rounded"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating elements -->
+        <div class="absolute -top-8 -right-0 z-20 animate-float">
+          <div class="bg-card border border-border rounded-lg p-3 shadow-lg">
+            <div class="flex items-center gap-2">
+              <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse">
+              </div>
+              <span class="text-xs font-medium">Novos conteúdos semanais</span>
+            </div>
+          </div>
+        </div>
+
+        <div
+          class="absolute -bottom-4 -left-5 z-20 animate-float"
+          style="animation-delay: 1s"
+        >
+          <div class="bg-card border border-border rounded-lg p-3 shadow-lg">
+            <div class="flex items-center gap-2">
+              <svg
+                class="w-4 h-4 text-primary"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zM3 10a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6zM14 9a1 1 0 00-1 1v6a1 1 0 001 1h2a1 1 0 001-1v-6a1 1 0 00-1-1h-2z"
+                ></path>
+              </svg>
+              <span class="text-xs font-medium text-blue-500">
+                Esteja à frente com insights exclusivos sobre IA
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Preview Section -->
+  <section class="py-16 bg-muted/30">
+    <div class="container mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-4 text-foreground">
+          O que você encontrará aqui
+        </h2>
+        <p class="text-lg text-muted-foreground max-w-2xl mx-auto">
+          De tendências tecnológicas de ponta a estratégias de marketing
+          comprovadas
+        </p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <!-- Tech Preview -->
+        <a href="/blog/tech" class="group">
+          <div
+            class="bg-card flex flex-col min-h-[250px] rounded-xl p-6 shadow-sm border border-border hover:shadow-lg transition-all duration-300 group-hover:scale-105"
+          >
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-primary"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z"
+                    clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="font-bold text-lg group-hover:text-primary transition-colors"
+                >
+                  Tecnologia
+                </h3>
+                <p class="text-sm text-muted-foreground">
+                  AI, Desenvolvimento web, Inovação
+                </p>
+              </div>
+            </div>
+            <p class="text-muted-foreground mb-4">
+              Explore as últimas tendências em inteligência artificial,
+              desenvolvimento web e inovações digitais. Descubra como essas
+              tecnologias estão moldando o futuro.
+            </p>
+            <div
+              class="flex items-center text-primary font-medium group-hover:gap-3 transition-all"
+            >
+              Explorar Artigos Tech
+              <svg
+                class="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+                  clip-rule="evenodd"></path>
+              </svg>
+            </div>
+          </div>
+        </a>
+
+        <!-- Marketing Preview -->
+        <a href="#" class="group pointer-events-none">
+          <div
+            class="bg-card flex flex-col min-h-[250px] rounded-xl p-6 shadow-sm border border-border transition-all duration-300"
+          >
+            <div class="flex items-center gap-3 mb-4">
+              <div
+                class="w-12 h-12 bg-secondary/10 rounded-lg flex items-center justify-center"
+              >
+                <svg
+                  class="w-6 h-6 text-secondary"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"
+                  ></path>
+                </svg>
+              </div>
+              <div>
+                <h3
+                  class="font-bold text-lg"
+                >
+                  Marketing
+                </h3>
+                <p class="text-sm text-muted-foreground">
+                  Strategy, Growth, Analytics
+                </p>
+              </div>
+            </div>
+            <p class="text-muted-foreground mb-4">
+              Domine estratégias de marketing comprovadas, táticas de
+              crescimento e abordagens baseadas em dados para escalar o seu
+              negócio.
+            </p>
+			<div
+			  class="flex items-center text-secondary font-medium transition-all flex-1 pointer-events-none opacity-50"
+			>
+			  Explore Guias de Marketing
+			  <svg
+				class="w-4 h-4 ml-2 transition-transform"
+				fill="currentColor"
+				viewBox="0 0 20 20"
+			  >
+				<path
+				  fill-rule="evenodd"
+				  d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z"
+				  clip-rule="evenodd"></path>
+			  </svg>
+			</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    @keyframes fade-in-up {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes float {
+      0%,
+      100% {
+        transform: translateY(0) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-10px) rotate(1deg);
+      }
+    }
+
+    .animate-fade-in-up {
+      animation: fade-in-up 0.8s ease-out forwards;
+    }
+
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+
+    /* Ensure smooth transitions */
+    * {
+      transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  </style>
+</Base>
