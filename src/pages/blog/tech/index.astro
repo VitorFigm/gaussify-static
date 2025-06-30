@@ -55,34 +55,32 @@ function getReadingTime(content: string) {
 <Base title="Tech Blog - Latest Technology Insights" description="Explore the latest in technology, AI, web development, and digital innovation">
   <main class="min-h-screen bg-background">
     <!-- Header Section -->
-    <section class="relative py-20 px-2 bg-primary/10">
-       
-      
+    <section class="relative py-20 px-4 bg-primary">
       <div class="container mx-auto max-w-6xl relative z-10">
         <div class="text-center">
           <!-- Breadcrumb -->
           <nav class="flex justify-center mb-8">
-            <div class="flex items-center space-x-2 text-sm text-muted-foreground">
-              <a href="/" class="hover:text-primary transition-colors">Home</a>
+            <div class="flex items-center space-x-2 text-sm text-primary-foreground/70">
+              <a href="/" class="hover:text-primary-foreground transition-colors">Home</a>
               <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                 <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
               </svg>
-              <span class="text-foreground font-medium">Tech Blog</span>
+              <span class="text-primary-foreground font-medium">Tech Blog</span>
             </div>
           </nav>
 
-          <div class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
+          <div class="inline-flex items-center gap-2 bg-primary-foreground/10 text-primary-foreground border border-primary-foreground/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
               <path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd" />
             </svg>
             Insights de tecnologia
           </div>
           
-          <h1 class="text-4xl md:text-6xl font-bold mb-6 bg-clip-text text-primary">
+          <h1 class="text-4xl md:text-6xl font-bold mb-6 text-primary-foreground">
             Tech Blog
           </h1>
           
-          <p class="text-xl max-w-3xl mx-auto leading-relaxed">
+          <p class="text-xl max-w-3xl mx-auto leading-relaxed text-primary-foreground/80">
             Mergulhe nas últimas tendências tecnológicas, inovações em IA, práticas de desenvolvimento web e insights sobre transformação digital que moldam nosso futuro.
           </p>
         </div>
@@ -90,14 +88,14 @@ function getReadingTime(content: string) {
     </section>
 
     <!-- Posts Grid -->
-    <section class="relative pb-16 pt-30 px-4">
+    <section class="relative pb-16 pt-36 px-4">
       <!-- Wave pattern background -->
       <div class="absolute inset-0 overflow-hidden pointer-events-none">
         <div class="absolute top-0 left-0 w-full h-32">
           <svg class="absolute bottom-0 w-full h-32" viewBox="0 0 1200 120" preserveAspectRatio="none">
             <path
               d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"
-              opacity=".1"
+              opacity="1"
               fill="currentColor"
               class="text-primary"
             />
