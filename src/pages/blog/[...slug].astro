@@ -1,0 +1,370 @@
+---
+import { getCollection, type CollectionEntry, render } from "astro:content";
+import Base from "@/layouts/Base.astro";
+import { Card, CardContent } from "@/components/ui/card";
+import { limitText } from "@/lib/utils/limitText";
+import { Image } from "astro:assets";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+
+  console.log(posts);
+
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: { post },
+  }));
+}
+
+type Props = {
+  post: CollectionEntry<"blog">;
+};
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+function formatDate(date: Date) {
+  return new Intl.DateTimeFormat("pt-BR", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  }).format(date);
+}
+
+function getReadingTime(content: string) {
+  const wordsPerMinute = 200;
+  const words = content.split(" ").length;
+  return Math.ceil(words / wordsPerMinute);
+}
+
+// Get related posts from the same category
+const allPosts = await getCollection("blog");
+const relatedPosts = allPosts
+  .filter((p) => p.id !== post.id && p.data.category === post.data.category)
+  .sort(
+    (a, b) =>
+      new Date(b.data.pubDate).getTime() - new Date(a.data.pubDate).getTime()
+  )
+  .slice(0, 3);
+---
+
+<Base title={`${post.data.title} | Blog`} description={post.data.description}>
+  <main class="min-h-screen bg-background">
+    <!-- Hero Section -->
+    <section class="relative py-16 px-4 bg-primary/5">
+      <div class="container mx-auto max-w-4xl relative z-10">
+        <!-- Breadcrumb -->
+        <nav class="flex items-center mb-8 text-sm text-text-muted font-inter">
+          <a href="/" class="hover:text-primary transition-colors">Home</a>
+          <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <a href="/" class="hover:text-primary transition-colors">Blog</a>
+          <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
+            <path
+              fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd"></path>
+          </svg>
+          <span class="text-foreground font-medium"
+            >{limitText(post.data.title, 25)}</span
+          >
+        </nav>
+
+        <!-- Article Header -->
+        <article class="text-center">
+          <!-- Category Badge -->
+          {
+            post.data.category && (
+              <div class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    fill-rule="evenodd"
+                    d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                    clip-rule="evenodd"
+                  />
+                </svg>
+                {post.data.category}
+              </div>
+            )
+          }
+
+          <!-- Title -->
+          <h1
+            class="text-[2.5rem] font-bold mb-5 text-gray-900 leading-[1.15] max-w-4xl mx-auto"
+          >
+            {post.data.title}
+          </h1>
+
+          <!-- Description -->
+          <p
+            class="text-[1.25rem] text-gray-600 max-w-3xl mx-auto leading-[1.5] mb-6"
+          >
+            {post.data.description}
+          </p>
+
+          <!-- Meta Information -->
+          <div
+            class="flex items-center justify-center gap-6 text-[0.9375rem] text-gray-500 font-medium"
+          >
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              {formatDate(post.data.pubDate)}
+            </div>
+            <div class="flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  fill-rule="evenodd"
+                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                  clip-rule="evenodd"></path>
+              </svg>
+              leitura de {getReadingTime(post.body || "")} min
+            </div>
+            {
+              post.data.updatedDate && (
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                  Updated {formatDate(post.data.updatedDate)}
+                </div>
+              )
+            }
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Hero Image -->
+    {
+      post.data.heroImage && (
+        <section class="relative px-4 -mt-8">
+          <div class="container mx-auto max-w-4xl">
+            <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+              <Image
+                src={post.data.heroImage}
+                alt={post.data.title}
+                class="w-full h-64 md:h-96 object-cover"
+              />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Content Section -->
+    <section class="py-16 px-4">
+      <div class="container mx-auto max-w-4xl">
+        <div class="grid lg:grid-cols-12 gap-12">
+          <!-- <div class="col-span-12">
+            <Card>
+              <CardContent className="p-6">
+                <h3 class="font-semibold text-foreground mb-4">
+                  Table of Contents
+                </h3>
+                <nav class="space-y-2 text-sm">
+                  <a
+                    href="#introduction"
+                    class="block text-muted-foreground hover:text-primary transition-colors"
+                    >Introduction</a
+                  >
+                  <a
+                    href="#main-content"
+                    class="block text-muted-foreground hover:text-primary transition-colors"
+                    >Main Content</a
+                  >
+                  <a
+                    href="#conclusion"
+                    class="block text-muted-foreground hover:text-primary transition-colors"
+                    >Conclusion</a
+                  >
+                </nav>
+              </CardContent>
+            </Card>
+          </div> -->
+          <!-- Main Content -->
+          <div class="lg:col-span-12">
+            <Card className="overflow-hidden">
+              <CardContent className="p-8 md:p-12">
+                <!-- Article Content -->
+                <div
+                  class="font-inter max-w-none text-gray-800 [&>p]:text-[1.25rem] [&>p]:leading-[1.8] [&>p]:mb-6 [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>a]:text-blue-600 [&>a]:underline [&>a:hover]:text-blue-800 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-6 [&>blockquote]:text-gray-600 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-6 [&>li]:mb-2 [&>img]:mx-auto [&>p:has(img)]:mx-auto [&>p:has(img)]:flex [&>p:has(img)]:flex-col [&>p:has(img)]:justify-center [&_em]:text-text-muted [&_em]:text-center [&_em]:text-sm"
+                >
+                  <Content />
+                </div>
+
+                <!-- Tags -->
+                {
+                  post.data.tags && post.data.tags.length > 0 && (
+                    <div class="mt-12 pt-8 border-t border-border">
+                      <h3 class="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4">
+                        Tags
+                      </h3>
+                      <div class="flex flex-wrap gap-2">
+                        {post.data.tags.map((tag) => (
+                          <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-secondary/10 text-secondary border border-secondary/20">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )
+                }
+
+                <!-- Social Share -->
+                <div class="mt-8 pt-8 border-t border-border">
+                  <h3
+                    class="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4"
+                  >
+                    Share this article
+                  </h3>
+                  <div class="flex gap-3">
+                    <a
+                      href={`https://twitter.com/intent/tweet?url=${encodeURIComponent(
+                        `https://gaussify.com.br/blog/${post.id}`
+                      )}`}
+                      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600 transition-colors text-sm font-medium"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"
+                        ></path>
+                      </svg>
+                      Twitter
+                    </a>
+                    <a
+                      href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(
+                        `https://gaussify.com.br/blog/${post.id}`
+                      )}`}
+                      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-colors text-sm font-medium"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"
+                        ></path>
+                      </svg>
+                      Facebook
+                    </a>
+                    <a
+                      href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(
+                        `https://gaussify.com.br/blog/${post.id}`
+                      )}`}
+                      class="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-800 transition-colors text-sm font-medium"
+                    >
+                      <svg
+                        class="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"
+                        ></path>
+                      </svg>
+                      LinkedIn
+                    </a>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related Posts -->
+    {
+      relatedPosts.length > 0 && (
+        <section class="py-16 px-4 bg-muted/20">
+          <div class="container mx-auto max-w-6xl">
+            <h2 class="text-3xl font-bold text-foreground mb-12 text-center">
+              Artigos relacionados
+            </h2>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {relatedPosts.map((relatedPost, index) => (
+                <article class="group cursor-pointer">
+                  <a href={`/blog/${relatedPost.id}`} class="block">
+                    <Card className="h-full hover:shadow-lg transition-all duration-300 group-hover:scale-[1.02] border-border/50 hover:border-primary/20 overflow-hidden p-0">
+                      {relatedPost.data.heroImage && (
+                        <div class="relative overflow-hidden">
+                          <img
+                            src={relatedPost.data.heroImage.src}
+                            alt={relatedPost.data.title}
+                            class="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                            loading={index < 2 ? "eager" : "lazy"}
+                          />
+                          <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                        </div>
+                      )}
+
+                      <CardContent className="p-6">
+                        <div class="flex items-center gap-2 text-xs text-muted-foreground mb-3">
+                          <svg
+                            class="w-3 h-3"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                          {formatDate(relatedPost.data.pubDate)}
+                        </div>
+
+                        <h3 class="text-lg font-bold mb-2 text-foreground group-hover:text-primary transition-colors line-clamp-2">
+                          {relatedPost.data.title}
+                        </h3>
+
+                        <p class="text-muted-foreground text-sm line-clamp-3">
+                          {relatedPost.data.description}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )
+    }
+  </main>
+
+  <style>
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+  </style>
+</Base>

@@ -3,6 +3,7 @@ import { SITE_TITLE, SITE_DESCRIPTION } from "../consts";
 import "../styles/global.css";
 import "@fontsource-variable/outfit";
 import outfitWoff2 from "@fontsource-variable/outfit/files/outfit-latin-ext-wght-normal.woff2";
+import interWoff2 from "@fontsource-variable/inter/files/inter-latin-ext-wght-normal.woff2";
 
 type Props = {
   title?: string;
@@ -24,6 +25,13 @@ const { title = SITE_TITLE, description = SITE_DESCRIPTION } = Astro.props;
       as="font"
       type="font/woff2"
       href={outfitWoff2}
+      crossorigin="anonymous"
+    />
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href={interWoff2}
       crossorigin="anonymous"
     />
     <title>{title}</title>
