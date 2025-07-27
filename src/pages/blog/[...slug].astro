@@ -52,98 +52,102 @@ const relatedPosts = allPosts
   <main class="min-h-screen bg-background">
     <!-- Hero Section -->
     <section class="relative py-16 px-4 bg-primary/5">
-      <div class="container mx-auto max-w-4xl relative z-10">
-        <!-- Breadcrumb -->
-        <nav class="flex items-center mb-8 text-sm text-text-muted font-inter">
-          <a href="/" class="hover:text-primary transition-colors">Home</a>
-          <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"></path>
-          </svg>
-          <a href="/" class="hover:text-primary transition-colors">Blog</a>
-          <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd"></path>
-          </svg>
-          <span class="text-foreground font-medium"
-            >{limitText(post.data.title, 25)}</span
-          >
-        </nav>
-
-        <!-- Article Header -->
-        <article class="text-center">
-          <!-- Category Badge -->
-          {
-            post.data.category && (
-              <div class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
-                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {post.data.category}
-              </div>
-            )
-          }
-
-          <!-- Title -->
-          <h1
-            class="text-[2.5rem] font-bold mb-5 text-gray-900 leading-[1.15] max-w-4xl mx-auto"
-          >
-            {post.data.title}
-          </h1>
-
-          <!-- Description -->
-          <p
-            class="text-[1.25rem] text-gray-600 max-w-3xl mx-auto leading-[1.5] mb-6"
-          >
-            {post.data.description}
-          </p>
-
-          <!-- Meta Information -->
-          <div
-            class="flex items-center justify-center gap-6 text-[0.9375rem] text-gray-500 font-medium"
-          >
-            <div class="flex items-center gap-2">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+      <div class="container mx-auto relative z-10">
+        <div class="grid grid-cols-12">
+          <div class="col-span-12 col-start-1 lg:col-span-8 lg:col-start-3">
+            <!-- Breadcrumb -->
+            <nav class="flex items-center mb-8 text-sm text-text-muted font-inter">
+              <a href="/" class="hover:text-primary transition-colors">Home</a>
+              <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fill-rule="evenodd"
-                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                   clip-rule="evenodd"></path>
               </svg>
-              {formatDate(post.data.pubDate)}
-            </div>
-            <div class="flex items-center gap-2">
-              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+              <a href="/" class="hover:text-primary transition-colors">Blog</a>
+              <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
                 <path
                   fill-rule="evenodd"
-                  d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
                   clip-rule="evenodd"></path>
               </svg>
-              leitura de {getReadingTime(post.body || "")} min
-            </div>
-            {
-              post.data.updatedDate && (
+              <span class="text-foreground font-medium"
+                >{limitText(post.data.title, 25)}</span
+              >
+            </nav>
+
+            <!-- Article Header -->
+            <article class="text-center">
+              <!-- Category Badge -->
+              {
+                post.data.category && (
+                  <div class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
+                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path
+                        fill-rule="evenodd"
+                        d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
+                        clip-rule="evenodd"
+                      />
+                    </svg>
+                    {post.data.category}
+                  </div>
+                )
+              }
+
+              <!-- Title -->
+              <h1
+                class="text-[2.5rem] font-bold mb-5 text-gray-900 leading-[1.15]"
+              >
+                {post.data.title}
+              </h1>
+
+              <!-- Description -->
+              <p
+                class="text-[1.25rem] text-gray-600 leading-[1.5] mb-6"
+              >
+                {post.data.description}
+              </p>
+
+              <!-- Meta Information -->
+              <div
+                class="flex items-center justify-center gap-6 text-[0.9375rem] text-gray-500 font-medium"
+              >
                 <div class="flex items-center gap-2">
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
                     <path
                       fill-rule="evenodd"
-                      d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
-                      clip-rule="evenodd"
-                    />
+                      d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
+                      clip-rule="evenodd"></path>
                   </svg>
-                  Updated {formatDate(post.data.updatedDate)}
+                  {formatDate(post.data.pubDate)}
                 </div>
-              )
-            }
+                <div class="flex items-center gap-2">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path
+                      fill-rule="evenodd"
+                      d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z"
+                      clip-rule="evenodd"></path>
+                  </svg>
+                  leitura de {getReadingTime(post.body || "")} min
+                </div>
+                {
+                  post.data.updatedDate && (
+                    <div class="flex items-center gap-2">
+                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path
+                          fill-rule="evenodd"
+                          d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
+                          clip-rule="evenodd"
+                        />
+                      </svg>
+                      Updated {formatDate(post.data.updatedDate)}
+                    </div>
+                  )
+                }
+              </div>
+            </article>
           </div>
-        </article>
+        </div>
       </div>
     </section>
 
@@ -151,14 +155,18 @@ const relatedPosts = allPosts
     {
       post.data.heroImage && (
         <section class="relative px-4 -mt-8">
-          <div class="container mx-auto max-w-4xl">
-            <div class="relative overflow-hidden rounded-2xl shadow-2xl">
-              <Image
-                src={post.data.heroImage}
-                alt={post.data.title}
-                class="w-full h-64 md:h-96 object-cover"
-              />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          <div class="container mx-auto">
+            <div class="grid grid-cols-12">
+              <div class="col-span-12 col-start-1 lg:col-span-8 lg:col-start-3">
+                <div class="relative overflow-hidden rounded-2xl shadow-2xl">
+                  <Image
+                    src={post.data.heroImage}
+                    alt={post.data.title}
+                    class="w-full h-64 md:h-96 object-cover"
+                  />
+                  <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -167,36 +175,10 @@ const relatedPosts = allPosts
 
     <!-- Content Section -->
     <section class="py-16 px-4">
-      <div class="container mx-auto max-w-4xl">
-        <div class="grid lg:grid-cols-12 gap-12">
-          <!-- <div class="col-span-12">
-            <Card>
-              <CardContent className="p-6">
-                <h3 class="font-semibold text-foreground mb-4">
-                  Table of Contents
-                </h3>
-                <nav class="space-y-2 text-sm">
-                  <a
-                    href="#introduction"
-                    class="block text-muted-foreground hover:text-primary transition-colors"
-                    >Introduction</a
-                  >
-                  <a
-                    href="#main-content"
-                    class="block text-muted-foreground hover:text-primary transition-colors"
-                    >Main Content</a
-                  >
-                  <a
-                    href="#conclusion"
-                    class="block text-muted-foreground hover:text-primary transition-colors"
-                    >Conclusion</a
-                  >
-                </nav>
-              </CardContent>
-            </Card>
-          </div> -->
+      <div class="container mx-auto">
+        <div class="grid grid-cols-12 gap-12">
           <!-- Main Content -->
-          <div class="lg:col-span-12">
+          <div class="col-span-12 col-start-1 lg:col-span-8 lg:col-start-3">
             <Card className="overflow-hidden">
               <CardContent className="p-8 md:p-12">
                 <!-- Article Content -->
