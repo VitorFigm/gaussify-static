@@ -249,6 +249,28 @@ const contentSections = parseContentSections(post.body || '');
               contentSections.map((section, index) => (
                 <Card className="overflow-hidden">
                   <CardContent>
+                    {/* Audio Player - Show only in first card if audio exists */}
+                    {index === 0 && post.data.audio && (
+                      <div class="mb-8 p-6 border rounded-lg ">
+                        <div class="flex items-center gap-3 mb-4">
+                          <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+                          </svg>
+                          <h3 class="text-lg font-semibold text-gray-900">Ouça este artigo</h3>
+                        </div>
+                        <audio 
+                          controls 
+                          class="w-full"
+                          preload="metadata"
+                        >
+                          <source src={post.data.audio} type="audio/mpeg" />
+                          <source src={post.data.audio} type="audio/ogg" />
+                          <source src={post.data.audio} type="audio/wav" />
+                          Seu navegador não suporta o elemento de áudio.
+                        </audio>
+                      </div>
+                    )}
+
                     {section.title && (
                       <h2 class="text-3xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-4">
                         {section.title}
@@ -267,6 +289,28 @@ const contentSections = parseContentSections(post.body || '');
               <!-- Fallback: Render full content if no sections found -->
               <Card className="overflow-hidden">
                 <CardContent className="p-8 md:p-12">
+                  {/* Audio Player - Show if audio exists */}
+                  {post.data.audio && (
+                    <div class="mb-8 p-6 bg-gray-50 rounded-lg border border-gray-200">
+                      <div class="flex items-center gap-3 mb-4">
+                        <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                          <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+                        </svg>
+                        <h3 class="text-lg font-semibold text-gray-900">Ouça este artigo</h3>
+                      </div>
+                      <audio 
+                        controls 
+                        class="w-full"
+                        preload="metadata"
+                      >
+                        <source src={post.data.audio} type="audio/mpeg" />
+                        <source src={post.data.audio} type="audio/ogg" />
+                        <source src={post.data.audio} type="audio/wav" />
+                        Seu navegador não suporta o elemento de áudio.
+                      </audio>
+                    </div>
+                  )}
+
                   <div
                     class="font-inter max-w-none text-gray-800 [&>p]:text-[1.25rem] [&>p]:leading-[1.8] [&>p]:mb-6 [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>a]:text-blue-600 [&>a]:underline [&>a:hover]:text-blue-800 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-6 [&>blockquote]:text-gray-600 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-6 [&>li]:mb-2 [&>img]:mx-auto [&>p:has(img)]:mx-auto [&>p:has(img)]:flex [&>p:has(img)]:flex-col [&>p:has(img)]:justify-center [&_em]:text-text-muted [&_em]:text-center [&_em]:text-sm"
                   >

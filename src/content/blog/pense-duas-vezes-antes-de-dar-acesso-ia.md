@@ -1,17 +1,22 @@
 ---
 title: 'Privacidade e Segurança: Pense Duas Vezes Antes de Dar Acesso aos Seus Dados Pessoais para IAs'
+audio: '/audio/teste.mp3'
 description: 'Uma análise profunda sobre os riscos de privacidade e segurança ao conceder acesso aos seus dados pessoais para assistentes de IA.'
 pubDate: 'Jul 21 2025'
-heroImage: '../../assets/blog-placeholder-1.jpg'
+heroImage: '../../assets/images/blog-placeholder-1.jpg'
 category: 'tech'
 tags: ['IA', 'Privacidade', 'Segurança', 'Dados Pessoais']
+summary: 
+    - A Inteligência Artificial está se tornando onipresente, mas a que custo?
+    - Assistentes de IA estão solicitando acesso excessivo aos seus dados pessoais.
+    - Há riscos significativos de privacidade e segurança ao conceder esse acesso.
 ---
 
 A Inteligência Artificial está sendo imposta em praticamente todos os aspectos de nossas vidas, desde telefones e aplicativos até mecanismos de busca e até mesmo em drive-throughs. O fato de que agora estamos recebendo navegadores web com assistentes e chatbots de IA integrados mostra que a maneira como algumas pessoas estão usando a internet hoje é muito diferente de alguns anos atrás.
 
 Mas as ferramentas de IA estão cada vez mais solicitando níveis absurdos de acesso aos seus dados pessoais sob o pretexto de precisarem deles para funcionar. Este tipo de acesso não é normal e não deve ser normalizado.
 
-![Uma ilustração de uma pessoa usando um chatbot de IA em um fundo azul explosivo](../../assets/blog-placeholder-2.jpg)
+![Uma ilustração de uma pessoa usando um chatbot de IA em um fundo azul explosivo](../../assets/images/blog-placeholder-2.jpg)
 *A IA está se tornando onipresente em nossas vidas digitais, mas a que custo?*
 
 ## O Novo Normal?
@@ -22,7 +27,7 @@ Hoje em dia, a IA não é muito diferente. Tome como exemplo o mais recente nave
 
 Em um teste recente com o navegador, o TechCrunch descobriu que quando a Perplexity solicita acesso ao Google Calendar de um usuário, o navegador pede uma ampla gama de permissões para a conta Google do usuário, incluindo:
 
-![Lista de permissões solicitadas pelo navegador Comet da Perplexity](../../assets/blog-placeholder-3.jpg)
+![Lista de permissões solicitadas pelo navegador Comet da Perplexity](../../assets/images/blog-placeholder-3.jpg)
 *Exemplo das numerosas permissões solicitadas pelo Comet ao acessar sua conta Google*
 
 - Capacidade de gerenciar rascunhos e enviar e-mails
@@ -48,7 +53,7 @@ Do ponto de vista de segurança e privacidade, uma simples análise de custo-ben
 
 Considerando a quantidade de dados que você entrega às empresas de IA, pergunte-se se o que você obtém em troca realmente vale a pena.
 
-![Representação gráfica de dados pessoais sendo transferidos para serviços de IA](../../assets/blog-placeholder-4.jpg)
+![Representação gráfica de dados pessoais sendo transferidos para serviços de IA](../../assets/images/blog-placeholder-4.jpg)
 *Seus dados pessoais são valiosos demais para serem compartilhados sem uma análise crítica*
 
 ---

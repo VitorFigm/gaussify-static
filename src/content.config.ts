@@ -14,6 +14,7 @@ const blog = defineCollection({
 		heroImage: image().optional(),
 		category: z.enum(['tech', 'marketing']).optional(),
 		tags: z.array(z.string()).optional(),
+		audio: z.string().optional(),
 	}),
 });
 
