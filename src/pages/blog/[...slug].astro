@@ -4,40 +4,41 @@ import Base from "@/layouts/Base.astro";
 import { Card, CardContent } from "@/components/ui/card";
 import { limitText } from "@/lib/utils/limitText";
 import { Image } from "astro:assets";
+import { Summary } from "@/components/blog/Summary";
 
 // Simple markdown to HTML converter using basic replacements
 function markdownToHtml(markdown: string): string {
   let html = markdown
     // Headers
-    .replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    .replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+    .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+    .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+    .replace(/^# (.*$)/gim, "<h1>$1</h1>")
     // Bold
-    .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
+    .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
     // Italic
-    .replace(/\*(.*?)\*/gim, '<em>$1</em>')
+    .replace(/\*(.*?)\*/gim, "<em>$1</em>")
     // Links
     .replace(/\[([^\]]+)\]\(([^)]+)\)/gim, '<a href="$2">$1</a>')
     // Code blocks
-    .replace(/```([^`]+)```/gim, '<pre><code>$1</code></pre>')
+    .replace(/```([^`]+)```/gim, "<pre><code>$1</code></pre>")
     // Inline code
-    .replace(/`([^`]+)`/gim, '<code>$1</code>')
+    .replace(/`([^`]+)`/gim, "<code>$1</code>")
     // Line breaks
-    .replace(/\n\n/gim, '</p><p>')
+    .replace(/\n\n/gim, "</p><p>")
     // Lists
-    .replace(/^\* (.+)$/gim, '<li>$1</li>')
-    .replace(/(<li>.*<\/li>)/gims, '<ul>$1</ul>')
-    .replace(/^\d+\. (.+)$/gim, '<li>$1</li>')
+    .replace(/^\* (.+)$/gim, "<li>$1</li>")
+    .replace(/(<li>.*<\/li>)/gims, "<ul>$1</ul>")
+    .replace(/^\d+\. (.+)$/gim, "<li>$1</li>")
     .replace(/(<li>.*<\/li>)/gims, (match) => {
-      if (!match.includes('<ul>')) {
-        return '<ol>' + match + '</ol>';
+      if (!match.includes("<ul>")) {
+        return "<ol>" + match + "</ol>";
       }
       return match;
     });
 
   // Wrap in paragraphs if not already wrapped
-  if (!html.startsWith('<') && html.trim()) {
-    html = '<p>' + html + '</p>';
+  if (!html.startsWith("<") && html.trim()) {
+    html = "<p>" + html + "</p>";
   }
 
   return html;
@@ -56,27 +57,27 @@ type Props = {
   post: CollectionEntry<"blog">;
 };
 
-
-
 // Function to split content by H2 tags
 function parseContentSections(content: string) {
   // Split by ## (markdown H2) while keeping the heading
-  const sections = content.split(/(?=^## )/gm).filter(section => section.trim());
-  
-  return sections.map(section => {
-    const lines = section.split('\n');
+  const sections = content
+    .split(/(?=^## )/gm)
+    .filter((section) => section.trim());
+
+  return sections.map((section) => {
+    const lines = section.split("\n");
     const titleMatch = lines[0].match(/^## (.+)$/);
-    
+
     if (titleMatch) {
       return {
         title: titleMatch[1],
-        content: lines.slice(1).join('\n').trim()
+        content: lines.slice(1).join("\n").trim(),
       };
     } else {
       // This is content before first H2 (introduction)
       return {
-        title: '',
-        content: section.trim()
+        title: "",
+        content: section.trim(),
       };
     }
   });
@@ -110,8 +111,7 @@ const relatedPosts = allPosts
   .slice(0, 3);
 
 // Split the raw content by H2 sections
-const contentSections = parseContentSections(post.body || '');
-
+const contentSections = parseContentSections(post.body || "");
 ---
 
 <Base title={`${post.data.title} | Blog`} description={post.data.description}>
@@ -122,7 +122,9 @@ const contentSections = parseContentSections(post.body || '');
         <div class="grid grid-cols-12">
           <div class="col-span-12 col-start-1 lg:col-span-8 lg:col-start-3">
             <!-- Breadcrumb -->
-            <nav class="flex items-center mb-8 text-sm text-text-muted font-inter">
+            <nav
+              class="flex items-center mb-8 text-sm text-text-muted font-inter"
+            >
               <a href="/" class="hover:text-primary transition-colors">Home</a>
               <svg class="w-4 h-4 mx-2" fill="currentColor" viewBox="0 0 20 20">
                 <path
@@ -148,7 +150,11 @@ const contentSections = parseContentSections(post.body || '');
               {
                 post.data.category && (
                   <div class="inline-flex items-center gap-2 bg-primary/10 text-primary border border-primary/20 rounded-full px-4 py-2 text-sm font-medium mb-6">
-                    <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <svg
+                      class="w-4 h-4"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
                       <path
                         fill-rule="evenodd"
                         d="M3 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 4a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z"
@@ -168,9 +174,7 @@ const contentSections = parseContentSections(post.body || '');
               </h1>
 
               <!-- Description -->
-              <p
-                class="text-[1.25rem] text-gray-600 leading-[1.5] mb-6"
-              >
+              <p class="text-[1.25rem] text-gray-600 leading-[1.5] mb-6">
                 {post.data.description}
               </p>
 
@@ -199,7 +203,11 @@ const contentSections = parseContentSections(post.body || '');
                 {
                   post.data.updatedDate && (
                     <div class="flex items-center gap-2">
-                      <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <svg
+                        class="w-4 h-4"
+                        fill="currentColor"
+                        viewBox="0 0 20 20"
+                      >
                         <path
                           fill-rule="evenodd"
                           d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z"
@@ -244,23 +252,84 @@ const contentSections = parseContentSections(post.body || '');
       <div class="container mx-auto">
         <div class="grid grid-cols-12 gap-8">
           <!-- Main Content Sections -->
-          <div class="col-span-12 col-start-1 lg:col-span-8 lg:col-start-3 space-y-8">
-            {contentSections.length > 0 ? (
-              contentSections.map((section, index) => (
+          <div
+            class="col-span-12 col-start-1 lg:col-span-8 lg:col-start-3 space-y-8"
+          >
+            {
+              post.data.summary && post.data.summary.length > 0 && (
+                <Summary
+                  content={post.data.summary}
+                  client:load
+                  className="mb-8"
+                />
+              )
+            }
+            {
+              contentSections.length > 0 ? (
+                contentSections.map((section, index) => (
+                  <Card className="overflow-hidden">
+                    <CardContent>
+                      {/* Audio Player - Show only in first card if audio exists */}
+                      {index === 0 && post.data.audio && (
+                        <div class="mb-8 p-6 border rounded-lg ">
+                          <div class="flex items-center gap-3 mb-4">
+                            <svg
+                              class="w-5 h-5 text-primary"
+                              fill="currentColor"
+                              viewBox="0 0 20 20"
+                            >
+                              <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+                            </svg>
+                            <h3 class="text-lg font-semibold text-gray-900">
+                              Ouça este artigo
+                            </h3>
+                          </div>
+                          <audio
+                            controls
+                            class="w-full h-12 rounded-md shadow-sm bg-white [&::-webkit-media-controls-panel]:bg-white [&::-webkit-media-controls-play-button]:text-primary"
+                            preload="metadata"
+                          >
+                            <source src={post.data.audio} type="audio/mpeg" />
+                            <source src={post.data.audio} type="audio/ogg" />
+                            <source src={post.data.audio} type="audio/wav" />
+                            Seu navegador não suporta o elemento de áudio.
+                          </audio>
+                        </div>
+                      )}
+
+                      {section.title && (
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-4">
+                          {section.title}
+                        </h2>
+                      )}
+                      <div
+                        class="font-inter max-w-none text-gray-800 [&>p]:text-[1.25rem] [&>p]:leading-[1.8] [&>p]:mb-6 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>a]:text-blue-600 [&>a]:underline [&>a:hover]:text-blue-800 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-6 [&>blockquote]:text-gray-600 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-6 [&>li]:mb-2 [&>img]:mx-auto [&>p:has(img)]:mx-auto [&>p:has(img)]:flex [&>p:has(img)]:flex-col [&>p:has(img)]:justify-center [&_em]:text-text-muted [&_em]:text-center [&_em]:text-sm"
+                        set:html={markdownToHtml(section.content)}
+                      />
+                    </CardContent>
+                  </Card>
+                ))
+              ) : (
                 <Card className="overflow-hidden">
-                  <CardContent>
-                    {/* Audio Player - Show only in first card if audio exists */}
-                    {index === 0 && post.data.audio && (
-                      <div class="mb-8 p-6 border rounded-lg ">
+                  <CardContent className="p-8 md:p-12">
+                    {/* Audio Player - Show if audio exists */}
+                    {post.data.audio && (
+                      <div class="mb-8 p-6 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg border border-primary/20">
                         <div class="flex items-center gap-3 mb-4">
-                          <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                          <svg
+                            class="w-5 h-5 text-primary"
+                            fill="currentColor"
+                            viewBox="0 0 20 20"
+                          >
                             <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
                           </svg>
-                          <h3 class="text-lg font-semibold text-gray-900">Ouça este artigo</h3>
+                          <h3 class="text-lg font-semibold text-gray-900">
+                            Ouça este artigo
+                          </h3>
                         </div>
-                        <audio 
-                          controls 
-                          class="w-full h-12 rounded-md shadow-sm bg-white [&::-webkit-media-controls-panel]:bg-white [&::-webkit-media-controls-play-button]:text-primary"
+                        <audio
+                          controls
+                          class="w-full h-12 rounded-md shadow-sm border border-gray-200 bg-white [&::-webkit-media-controls-panel]:bg-white [&::-webkit-media-controls-play-button]:text-primary"
                           preload="metadata"
                         >
                           <source src={post.data.audio} type="audio/mpeg" />
@@ -271,52 +340,13 @@ const contentSections = parseContentSections(post.body || '');
                       </div>
                     )}
 
-                    {section.title && (
-                      <h2 class="text-3xl font-bold text-gray-900 mb-6 border-b border-gray-200 pb-4">
-                        {section.title}
-                      </h2>
-                    )}
-                    <!-- Section Content -->
-                    <div
-                      class="font-inter max-w-none text-gray-800 [&>p]:text-[1.25rem] [&>p]:leading-[1.8] [&>p]:mb-6 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>a]:text-blue-600 [&>a]:underline [&>a:hover]:text-blue-800 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-6 [&>blockquote]:text-gray-600 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-6 [&>li]:mb-2 [&>img]:mx-auto [&>p:has(img)]:mx-auto [&>p:has(img)]:flex [&>p:has(img)]:flex-col [&>p:has(img)]:justify-center [&_em]:text-text-muted [&_em]:text-center [&_em]:text-sm"
-                      set:html={markdownToHtml(section.content)}
-                    >
+                    <div class="font-inter max-w-none text-gray-800 [&>p]:text-[1.25rem] [&>p]:leading-[1.8] [&>p]:mb-6 [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>a]:text-blue-600 [&>a]:underline [&>a:hover]:text-blue-800 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-6 [&>blockquote]:text-gray-600 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-6 [&>li]:mb-2 [&>img]:mx-auto [&>p:has(img)]:mx-auto [&>p:has(img)]:flex [&>p:has(img)]:flex-col [&>p:has(img)]:justify-center [&_em]:text-text-muted [&_em]:text-center [&_em]:text-sm">
+                      <Content />
                     </div>
                   </CardContent>
                 </Card>
-              ))
-            ) : (
-              <!-- Fallback: Render full content if no sections found -->
-              <Card className="overflow-hidden">
-                <CardContent className="p-8 md:p-12">
-                  {/* Audio Player - Show if audio exists */}
-                  {post.data.audio && (
-                    <div class="mb-8 p-6 bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg border border-primary/20">
-                      <div class="flex items-center gap-3 mb-4">
-                        <svg class="w-5 h-5 text-primary" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.369 4.369 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
-                        </svg>
-                        <h3 class="text-lg font-semibold text-gray-900">Ouça este artigo</h3>
-                      </div>
-                      <audio 
-                        controls 
-                        class="w-full h-12 rounded-md shadow-sm border border-gray-200 bg-white [&::-webkit-media-controls-panel]:bg-white [&::-webkit-media-controls-play-button]:text-primary"
-                        preload="metadata"
-                      >
-                        <source src={post.data.audio} type="audio/mpeg" />
-                        <source src={post.data.audio} type="audio/ogg" />
-                        <source src={post.data.audio} type="audio/wav" />
-                        Seu navegador não suporta o elemento de áudio.
-                      </audio>
-                    </div>
-                  )}                  <div
-                    class="font-inter max-w-none text-gray-800 [&>p]:text-[1.25rem] [&>p]:leading-[1.8] [&>p]:mb-6 [&>h2]:text-3xl [&>h2]:font-bold [&>h2]:mt-8 [&>h2]:mb-4 [&>h3]:text-2xl [&>h3]:font-semibold [&>h3]:mt-6 [&>h3]:mb-3 [&>a]:text-blue-600 [&>a]:underline [&>a:hover]:text-blue-800 [&>blockquote]:border-l-4 [&>blockquote]:border-gray-300 [&>blockquote]:pl-4 [&>blockquote]:italic [&>blockquote]:my-6 [&>blockquote]:text-gray-600 [&>ul]:list-disc [&>ul]:ml-6 [&>ul]:mb-6 [&>ol]:list-decimal [&>ol]:ml-6 [&>ol]:mb-6 [&>li]:mb-2 [&>img]:mx-auto [&>p:has(img)]:mx-auto [&>p:has(img)]:flex [&>p:has(img)]:flex-col [&>p:has(img)]:justify-center [&_em]:text-text-muted [&_em]:text-center [&_em]:text-sm"
-                  >
-                    <Content />
-                  </div>
-                </CardContent>
-              </Card>
-            )}
+              )
+            }
 
             <!-- Tags and Social Share Card -->
             <Card className="overflow-hidden">
@@ -340,7 +370,11 @@ const contentSections = parseContentSections(post.body || '');
                 }
 
                 <!-- Social Share -->
-                <div class={post.data.tags && post.data.tags.length > 0 ? "pt-8 border-t border-border" : ""}>
+                <div
+                  class={post.data.tags && post.data.tags.length > 0
+                    ? "pt-8 border-t border-border"
+                    : ""}
+                >
                   <h3
                     class="text-sm font-semibold text-muted-foreground uppercase tracking-wide mb-4"
                   >
